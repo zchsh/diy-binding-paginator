@@ -13,7 +13,7 @@ One of the parts that I'm not looking forward to is figuring out how to efficien
 
 Things I wanna figure out:
 
-- [ ] Can I grab the first 2 pages of a big PDF so I can have a more manageable example?
+- [x] Can I grab the first 2 pages of a big PDF so I can have a more manageable example?
 - [ ] Can I parse the size of each page? And throw an error if pages are different sizes, or if their one consistent size is too small for the final page size?
 - [ ] Can I join 2 pages into a single PDF?
 - [ ] Can I add custom positions to those 2 pages as I join them?
