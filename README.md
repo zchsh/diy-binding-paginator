@@ -15,8 +15,8 @@ Things I wanna figure out:
 
 - [x] Can I grab the first 2 pages of a big PDF so I can have a more manageable example?
 - [x] Can I parse the size of each page?
-- [ ] Can I write a function that takes in a PDF file path, confirms whether pages are all the same size, and returns the consistent page size, or throws an error if page size isn't consistent?
-- [ ] Can I write the above function as a python "module" or whatever and import it into another file?
+- [x] Can I write a function that takes in a PDF file path, confirms whether pages are all the same size, and returns the consistent page size, or throws an error if page size isn't consistent?
+- [x] Can I write the above function as a python "module" or whatever and import it into another file?
 - [ ] Can I write a function to compare one page size to see if it'll fit as a diptych in a user-provided final page size?
 - [ ] Can I join 2 pages into a single PDF?
 - [ ] Can I add custom positions to those 2 pages as I join them?
