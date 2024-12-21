@@ -17,7 +17,7 @@ Things I wanna figure out:
 - [x] Can I parse the size of each page?
 - [x] Can I write a function that takes in a PDF file path, confirms whether pages are all the same size, and returns the consistent page size, or throws an error if page size isn't consistent?
 - [x] Can I write the above function as a python "module" or whatever and import it into another file?
-- [ ] Can I write a function to compare one page size to see if it'll fit as a diptych in a user-provided final page size?
+- [x] Can I write a function to compare one page size to see if it'll fit as a diptych in a user-provided final page size?
 - [ ] Can I join 2 pages into a single PDF?
 - [ ] Can I add custom positions to those 2 pages as I join them?
 - [ ] Can I expand the above tooling to work on a 16-page PDF, joining pages to allow double-sided printing of all the folios needed for two 8-page signatures, each consisting of 4 double-sided folios?
