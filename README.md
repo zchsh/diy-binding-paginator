@@ -4,6 +4,17 @@ I have a PDF with a bunch of pages that I want to print and bind myself.
 
 One of the parts that I'm not looking forward to is figuring out how to efficient lay out the individual pages into folios and signatures. I'm sure there are programs out there I could lean on to do this for me... but I thought it might be fun and fulfilling to try to write something myself.
 
+## Testing
+
+Tests are located in the `tests` folder. To run these tests, run:
+
+```bash
+python3 -m unittest discover -s tests
+```
+
+> [!NOTE]
+> I'm new to python, so there's probably a better way to organize and run tests... but this works for me, for now!
+
 ## Notes
 
 ### 2024-12-05 at 15:30 - thinking about what tools to use
