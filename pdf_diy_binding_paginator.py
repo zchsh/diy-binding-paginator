@@ -58,6 +58,31 @@ demoPage2.merge_translated_page(reader.pages[2], x1, y1)
 demoPage2.merge_translated_page(reader.pages[3], x2, y2)
 merger.add_page(demoPage2)
 
+#
+# PSEUDO CODE TO IMPLEMENT
+#
+# # Get the count of pages in the input PDF
+# pageCount = len(reader.pages)
+# # TODO: could maybe throw a helpful error here if pageCount % 4 != 0
+#
+# # USE THE PAGE COUNT TO BUILD FOLIO SPECS
+# 
+# runningTotalPages = 0
+# signatureSpecs = getSignatures(pageCount)
+# folioSpecs = []
+# for signaturePageCount of signatureSpecs:
+#   folioSpec = getFolios(signaturePageCount)
+#   withOffset = offsetPages(folioSpecs, runningTotalPages)
+#   folioSpecs.append(folioSpec)
+#   runningTotalPages += signaturePageCount
+# 
+# # USE THE FOLIO SPECS TO BUILD THE OUTPUT PDF
+#
+# for folioSpec of folioSpecs:
+#   for folioSide of folioSpec:
+#      leftPageIndex, rightPageIndex = folioSide
+#      # TODO make a diptych of leftPage + rightPage, push to PDF
+
 # Write and close the output PDF
 merger.write("fixtures/2024-12-22-demo-pdf-diy-binding-paginator.pdf")
 merger.close()
