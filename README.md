@@ -33,7 +33,7 @@ Things I wanna figure out:
   - Possible approach... first [create_blank_page](https://pypdf.readthedocs.io/en/stable/modules/PageObject.html#pypdf._page.PageObject.create_blank_page) with the user's provided size, this is our base page. Then use [merge page](https://pypdf.readthedocs.io/en/stable/modules/PageObject.html#pypdf._page.PageObject.merge_page), specifically [merge_translated_page](https://pypdf.readthedocs.io/en/stable/modules/PageObject.html#pypdf._page.PageObject.merge_translated_page), to position the first of the diptych pages onto the new blank page, this is the new base page. Then use [merge_translated_page](https://pypdf.readthedocs.io/en/stable/modules/PageObject.html#pypdf._page.PageObject.merge_translated_page) again to stack the second of the diptych pages into the merged document.
 - [x] Implement `get_signature_guide.py`
 - [x] Implement `offset_page_numbers.py` (takes in guide, offsets pages, like `offstPageNumbers(guide, offset)`)
-- [ ] Implement `determine_signatures.py` (like `determineSignatures(pageCount)`)
+- [x] Implement `get_signatures.py` (like `getSignatures(pageCount)`)
 - [ ] Can I expand the above tooling to work on a 16-page PDF, joining pages to allow double-sided printing of all the folios needed for two 8-page signatures, each consisting of 4 double-sided folios?
   - First step will be writing a function that encodes the pagination...
   - Feels like an array `outputGuide` might make sense. Each item in the array would be `{ pageLeftIndex: <Integer>, pageRightIndex: <Integer> }`. This `outputGuide` could be iterated over, each item represents an output page, and each item can be combined with the `x1, x2, y1, y2` positions determined in earlier steps to create the specified output page.
