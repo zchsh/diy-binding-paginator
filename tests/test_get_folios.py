@@ -1,40 +1,40 @@
 import unittest
 
-from get_signature_guide import getSignatureGuide
+from get_folios import getFolios
 
-class TestGetSignatureGuide(unittest.TestCase):
-    # Test that a pageCount not divisible by 4 returns nil
+class TestGetFolios(unittest.TestCase):
+    # Test that a signaturePageCount not divisible by 4 returns nil
     def test_invalid_page_count(self):
-        result = getSignatureGuide(5)
+        result = getFolios(5)
         self.assertEqual(result, None)
 
-    # Assert that a pageCount of 4 returns a single folio
+    # Assert that a signaturePageCount of 4 returns a single folio
     def test_page_count_4(self):
-        result = getSignatureGuide(4)
+        result = getFolios(4)
         self.assertEqual(result, [
           [[1, 2], [3, 0]]
         ])
     
-    # Assert that a pageCount of 8 returns two folios
+    # Assert that a signaturePageCount of 8 returns two folios
     def test_page_count_8(self):
-        result = getSignatureGuide(8)
+        result = getFolios(8)
         self.assertEqual(result, [
           [[1, 6], [7, 0]],
           [[3, 4], [5, 2]]
         ])
 
-    # Assert that a pageCount of 12 returns three folios
+    # Assert that a signaturePageCount of 12 returns three folios
     def test_page_count_12(self):
-        result = getSignatureGuide(12)
+        result = getFolios(12)
         self.assertEqual(result, [
           [[1, 10], [11, 0]],
           [[3, 8], [9, 2]],
           [[5, 6], [7, 4]]
         ])
 
-    # Assert that a pageCount of 16 returns four folios
+    # Assert that a signaturePageCount of 16 returns four folios
     def test_page_count_16(self):
-        result = getSignatureGuide(16)
+        result = getFolios(16)
         self.assertEqual(result, [
           [[1, 14], [15, 0]],
           [[3, 12], [13, 2]],
