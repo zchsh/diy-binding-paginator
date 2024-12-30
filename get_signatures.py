@@ -20,7 +20,7 @@ def getSignatures(pageCount):
   if pageCount == 4: return [4]
   if pageCount == 8: return [8]
   if pageCount == 12: return [12]
-  if pageCount == 16: return [8, 8]
+  if pageCount == 16: return [16]
   if pageCount == 20: return [12, 8]
   if pageCount == 24: return [12, 12]
   if pageCount == 28: return [16, 12]

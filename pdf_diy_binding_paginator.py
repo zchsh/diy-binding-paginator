@@ -23,7 +23,8 @@ def createDiptychPage(targetSize, pageLeft, pageRight, x1, y1, x2, y2):
 
 
 # Define the input file path. This is PDF we'll be transforming for binding.
-inputFilePath = "fixtures/2024-12-05-sixteen-pages.pdf"
+# inputFilePath = "fixtures/2024-12-05-sixteen-pages.pdf"
+inputFilePath = "fixtures/2024-12-05-many-pages.pdf"
 
 # Ensure the PDF has consistent page sizes
 # If we don't have consistent page sizes, we won't be able to make this work.
@@ -54,6 +55,9 @@ reader = PdfReader(inputFilePath)
 # Get the count of pages in the input PDF
 pageCount = len(reader.pages)
 
+print("Page count:")
+print(pageCount)
+
 # If the page count isn't an evenly divisible by 4, we can't do much.
 # Well, I guess we could add blank pages... but for now we print an error
 if pageCount % 4 != 0:
@@ -65,7 +69,7 @@ if pageCount % 4 != 0:
 
 signatureSpecs = getSignatures(pageCount)
 
-print("Signature specs:")
+print("Signature spec:")
 print(signatureSpecs)
 
 folioSpecs = []
@@ -77,7 +81,8 @@ for signaturePageCount in signatureSpecs:
   runningTotalPages += signaturePageCount
 
 print("Folio specs:")
-print(folioSpecs)
+for folioSpec in folioSpecs:
+  print(folioSpec)
 
 # Initialize the output PDF
 merger = PdfWriter()
@@ -86,27 +91,26 @@ merger = PdfWriter()
 # DEMO
 #
 # As a demo, make a couple diptych pages from the first four input pages.
-pages = reader.pages
-merger.add_page(
-    createDiptychPage(targetSize, pages[0], pages[1], x1, y1, x2, y2)
-)
-merger.add_page(
-    createDiptychPage(targetSize, pages[2], pages[3], x1, y1, x2, y2)
-)
+# pages = reader.pages
+# merger.add_page(
+#     createDiptychPage(targetSize, pages[0], pages[1], x1, y1, x2, y2)
+# )
+# merger.add_page(
+#     createDiptychPage(targetSize, pages[2], pages[3], x1, y1, x2, y2)
+# )
 
-#
-# PSEUDO-CODE
-# Writes the full PDF based on the folio spec
-#
 # Use the folios specs to build the output PDF
-# for folioSpec of folioSpecs:
-#   for folioSide of folioSpec:
-#      leftPageIndex, rightPageIndex = folioSide
-#      left = pages[leftPageIndex]
-#      right = pages[rightPageIndex]
-#      outputPage = createDiptychPage(targetSize, left, right, x1, y1, x2, y2)
-#      merger.add_page(outputPage)
+inputPages = reader.pages
+for folioSpec in folioSpecs:
+  for folioPage in folioSpec:
+    for folioSide in folioPage:
+        leftPageIndex, rightPageIndex = folioSide
+        left = inputPages[leftPageIndex]
+        right = inputPages[rightPageIndex]
+        outputPage = createDiptychPage(targetSize, left, right, x1, y1, x2, y2)
+        merger.add_page(outputPage)
 
 # Write and close the output PDF
-merger.write("fixtures/2024-12-22-demo-pdf-diy-binding-paginator.pdf")
+# merger.write("fixtures/2024-12-22-demo-pdf-diy-binding-paginator.pdf")
+merger.write("fixtures/2024-12-30-demo-pdf-diy-binding-paginator-many-pages.pdf")
 merger.close()

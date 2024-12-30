@@ -27,8 +27,8 @@ def getFolios(signaturePageCount):
   for folioIndex in range(folioCount):
     offsetFacingIn = (folioIndex * 2) + 1
     offsetFacingOut = folioIndex * 2
-    folioFront = [offsetFacingIn, lastPageIndex - offsetFacingIn]
-    folioBack = [lastPageIndex - offsetFacingOut, offsetFacingOut]
-    folios.append([folioFront, folioBack])
+    folioFacingIn = [offsetFacingIn, lastPageIndex - offsetFacingIn]
+    folioFacingOut = [lastPageIndex - offsetFacingOut, offsetFacingOut]
+    folios.append([folioFacingOut, folioFacingIn])
   # Return the array of folios
   return folios
