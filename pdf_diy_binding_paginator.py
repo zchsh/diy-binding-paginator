@@ -1,6 +1,26 @@
 from pypdf import PdfReader, PdfWriter, PageObject
 from pdf_is_consistent_size import pdfIsConsistentSize
 from pdf_get_diptych_fit import pdfGetDiptychFit
+from get_signatures import getSignatures
+from get_folios import getFolios
+from offset_page_numbers import offsetPageNumbers
+
+# Given two page objects, and two sets of co-ordinates,
+# as well as a targetSize representing an output page target,
+# Return a PageObject representing a diptych of both input pages
+#
+# TODO: could split this out, I think? Not really sure... it feels
+# like a bit of a weird abstraction. But I'm fine with it for now.
+def createDiptychPage(targetSize, pageLeft, pageRight, x1, y1, x2, y2):
+    # Create a new page with the target size
+    outputPage = PageObject.create_blank_page(width=targetSize["width"], height=targetSize["height"])
+    # Merge the left page onto the new page
+    outputPage.merge_translated_page(pageLeft, x1, y1)
+    # Merge the right page onto the new page
+    outputPage.merge_translated_page(pageRight, x2, y2)
+    # Return the output page
+    return outputPage
+
 
 # Define the input file path. This is PDF we'll be transforming for binding.
 inputFilePath = "fixtures/2024-12-05-sixteen-pages.pdf"
@@ -34,61 +54,58 @@ reader = PdfReader(inputFilePath)
 # Get the count of pages in the input PDF
 pageCount = len(reader.pages)
 
+# If the page count isn't an evenly divisible by 4, we can't do much.
+# Well, I guess we could add blank pages... but for now we print an error
 if pageCount % 4 != 0:
     print("ERROR: page count needs to be divisible by 4.")
     print("TODO: learn how to actually throw an error... for now, whatever.")
+    exit()
 
-#
-# PSEUDO-CODE
-#
 # Use the page count to get folio specifications
-# runningTotalPages = 0
-# signatureSpecs = getSignatures(pageCount)
-# folioSpecs = []
-# for signaturePageCount of signatureSpecs:
-#   folioSpec = getFolios(signaturePageCount)
-#   withOffset = offsetPages(folioSpecs, runningTotalPages)
-#   folioSpecs.append(folioSpec)
-#   runningTotalPages += signaturePageCount
-# 
+
+signatureSpecs = getSignatures(pageCount)
+
+print("Signature specs:")
+print(signatureSpecs)
+
+folioSpecs = []
+runningTotalPages = 0
+for signaturePageCount in signatureSpecs:
+  folioSpec = getFolios(signaturePageCount)
+  withOffset = offsetPageNumbers(folioSpec, runningTotalPages)
+  folioSpecs.append(withOffset)
+  runningTotalPages += signaturePageCount
+
+print("Folio specs:")
+print(folioSpecs)
 
 # Initialize the output PDF
 merger = PdfWriter()
 
 #
-# TODO: split out a separate function, makeDiptychPage, or something
-# Could use it here for the demo, and re-use for the "real" code to write.
+# DEMO
 #
-# Add an example diptych page to the output PDF.
-# Later, we'll want to loop through all pages in the input PDF,
-# and use some magic to position pages so that when the output PDF
-# is printed double-sided-flip-short-edge, we end up with the appropriate
-# folios, which can be assembled into signatures, and bound into a book.
-#
-# But for now, we make a couple demo pages from the first four input pages.
-# 
-# Create a new page with the target size
-demoPage = PageObject.create_blank_page(width=targetSize["width"], height=targetSize["height"])
-# Merge the left page onto the new page
-demoPage.merge_translated_page(reader.pages[0], x1, y1)
-# Merge the right page onto the new page
-demoPage.merge_translated_page(reader.pages[1], x2, y2)
-# Add the merged page to the output PDF
-merger.add_page(demoPage)
-# Do it all again
-demoPage2 = PageObject.create_blank_page(width=targetSize["width"], height=targetSize["height"])
-demoPage2.merge_translated_page(reader.pages[2], x1, y1)
-demoPage2.merge_translated_page(reader.pages[3], x2, y2)
-merger.add_page(demoPage2)
+# As a demo, make a couple diptych pages from the first four input pages.
+pages = reader.pages
+merger.add_page(
+    createDiptychPage(targetSize, pages[0], pages[1], x1, y1, x2, y2)
+)
+merger.add_page(
+    createDiptychPage(targetSize, pages[2], pages[3], x1, y1, x2, y2)
+)
 
 #
 # PSEUDO-CODE
+# Writes the full PDF based on the folio spec
 #
 # Use the folios specs to build the output PDF
 # for folioSpec of folioSpecs:
 #   for folioSide of folioSpec:
 #      leftPageIndex, rightPageIndex = folioSide
-#      # TODO make a diptych of leftPage + rightPage, push to PDF
+#      left = pages[leftPageIndex]
+#      right = pages[rightPageIndex]
+#      outputPage = createDiptychPage(targetSize, left, right, x1, y1, x2, y2)
+#      merger.add_page(outputPage)
 
 # Write and close the output PDF
 merger.write("fixtures/2024-12-22-demo-pdf-diy-binding-paginator.pdf")
