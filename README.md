@@ -2,7 +2,7 @@
 
 I have a PDF with a bunch of pages that I want to print and bind myself.
 
-One of the parts that I'm not looking forward to is figuring out how to efficient lay out the individual pages into folios and signatures. I'm sure there are programs out there I could lean on to do this for me... but I thought it might be fun and fulfilling to try to write something myself.
+One of the parts that I'm not looking forward to is figuring out how to efficiently lay out the individual pages into folios and signatures. I'm sure there are programs out there I could lean on to do this for me... but I thought it might be fun and fulfilling to try to write something myself.
 
 ## Testing
 
