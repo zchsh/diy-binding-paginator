@@ -4,6 +4,14 @@ I have a PDF with a bunch of pages that I want to print and bind myself.
 
 One of the parts that I'm not looking forward to is figuring out how to efficiently lay out the individual pages into folios and signatures. I'm sure there are programs out there I could lean on to do this for me... but I thought it might be fun and fulfilling to try to write something myself.
 
+## Next steps
+
+- [ ] Make binding script accept inputFile and outputFile command line arguments
+- [ ] Make split even odd script accept inputFile command line argument
+- [ ] Add scaling option to binding script
+- [ ] Add gutter option to binding script
+- [ ] Add sewing dots option, with positioning, to binding script
+
 ## Setup
 
 ```sh
