@@ -4,11 +4,27 @@ I have a PDF with a bunch of pages that I want to print and bind myself.
 
 One of the parts that I'm not looking forward to is figuring out how to efficiently lay out the individual pages into folios and signatures. I'm sure there are programs out there I could lean on to do this for me... but I thought it might be fun and fulfilling to try to write something myself.
 
+## Setup
+
+```sh
+# Set up an activate a virtual environment
+python3 -m venv venv
+source venv/bin/activate
+# Install dependencies
+python3 -m pip install -r requirements.txt
+```
+
+## Usage
+
+```sh
+python3 pdf_diy_binding_paginator.py
+```
+
 ## Testing
 
 Tests are located in the `tests` folder. To run these tests, run:
 
-```bash
+```sh
 python3 -m unittest discover -s tests
 ```
 

@@ -23,8 +23,10 @@ def createDiptychPage(targetSize, pageLeft, pageRight, x1, y1, x2, y2):
 
 
 # Define the input file path. This is PDF we'll be transforming for binding.
-# inputFilePath = "fixtures/2024-12-05-sixteen-pages.pdf"
-inputFilePath = "fixtures/2024-12-05-many-pages.pdf"
+inputFilePath = "/Users/zachshilton/Downloads/2025-02-22-observers-guide-export.pdf"
+outputFilePath = "/Users/zachshilton/Downloads/2025-02-22-observers-guide-paginated.pdf"
+# inputFilePath = "fixtures/2024-12-05-many-pages.pdf"
+# outputFilePath = "fixtures/2024-12-30-demo-pdf-diy-binding-paginator-many-pages.pdf"
 
 # Ensure the PDF has consistent page sizes
 # If we don't have consistent page sizes, we won't be able to make this work.
@@ -112,5 +114,5 @@ for folioSpec in folioSpecs:
 
 # Write and close the output PDF
 # merger.write("fixtures/2024-12-22-demo-pdf-diy-binding-paginator.pdf")
-merger.write("fixtures/2024-12-30-demo-pdf-diy-binding-paginator-many-pages.pdf")
+merger.write(outputFilePath)
 merger.close()
