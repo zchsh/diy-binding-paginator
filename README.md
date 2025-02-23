@@ -20,6 +20,13 @@ python3 -m pip install -r requirements.txt
 python3 pdf_diy_binding_paginator.py
 ```
 
+With this tool in its very half-done state, the sequence of commands I'm currently testing is:
+
+```sh
+python3 pdf_diy_binding_paginator.py
+python3 pdf_split_even_odd.py 
+```
+
 ## Testing
 
 Tests are located in the `tests` folder. To run these tests, run:
