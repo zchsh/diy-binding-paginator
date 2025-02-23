@@ -1,9 +1,21 @@
+import sys
+import argparse
+
 from pypdf import PdfReader, PdfWriter
 
-inputFilePath = "/Users/zachshilton/Downloads/2025-02-22-observers-guide-paginated.pdf"
-# TODO: could derive the below from the above, but I'm too lazy right now
-outputFilePathEven = "/Users/zachshilton/Downloads/2025-02-22-observers-guide-paginated-even.pdf"
-outputFilePathOdd = "/Users/zachshilton/Downloads/2025-02-22-observers-guide-paginated-odd.pdf"
+parser = argparse.ArgumentParser(
+	prog='PdfSplitEvenOdd',
+	description='Split a PDF file into two separate PDF files, one with even pages, and the other with odd pages.')
+
+parser.add_argument('-i', '--input-file')
+args = parser.parse_args()
+
+inputFilePath = args.input_file
+inputFilePathParts = inputFilePath.rsplit('.', 1)
+basePath = inputFilePathParts[0]
+extension = inputFilePathParts[1]
+outputFilePathEven = basePath + '-even' + '.' + extension
+outputFilePathOdd = basePath + '-odd' + '.' + extension
 
 inputpdf = PdfReader(open(inputFilePath, "rb"))
 outputEvenPdf = PdfWriter()
