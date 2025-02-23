@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from pypdf import PdfReader, PdfWriter, PageObject
+from pypdf import PdfReader, PdfWriter, PageObject, Transformation
 from pdf_is_consistent_size import pdfIsConsistentSize
 from pdf_get_diptych_fit import pdfGetDiptychFit
 from get_signatures import getSignatures
@@ -15,6 +15,8 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument('-i', '--input-file')
 parser.add_argument('-o', '--output-file')
+parser.add_argument('-s', '--scale')
+parser.add_argument('-g', '--gutter')
 
 args = parser.parse_args()
 
@@ -24,26 +26,22 @@ args = parser.parse_args()
 #
 # TODO: could split this out, I think? Not really sure... it feels
 # like a bit of a weird abstraction. But I'm fine with it for now.
-def createDiptychPage(targetSize, pageLeft, pageRight, x1, y1, x2, y2):
+def createDiptychPage(targetSize, pageLeft, pageRight, x1, y1, x2, y2, scaleFactor):
     # Create a new page with the target size
     outputPage = PageObject.create_blank_page(width=targetSize["width"], height=targetSize["height"])
     # Merge the left page onto the new page
-    outputPage.merge_translated_page(pageLeft, x1, y1)
+    pageLeftTransform = Transformation().scale(scaleFactor, scaleFactor).translate(x1, y1)
+    outputPage.merge_transformed_page(pageLeft, pageLeftTransform)
     # Merge the right page onto the new page
-    outputPage.merge_translated_page(pageRight, x2, y2)
+    pageRightTransform = Transformation().scale(scaleFactor, scaleFactor).translate(x2, y2)
+    outputPage.merge_transformed_page(pageRight, pageRightTransform)
     # Return the output page
     return outputPage
 
 
 # Define the input file path. This is PDF we'll be transforming for binding.
 inputFilePath = args.input_file
-# outputFilePath = "/Users/zachshilton/Downloads/2025-02-22-observers-guide-paginated.pdf"
 outputFilePath = args.output_file
-# inputFilePath = "fixtures/2024-12-05-many-pages.pdf"
-# outputFilePath = "fixtures/2024-12-30-demo-pdf-diy-binding-paginator-many-pages.pdf"
-
-print(inputFilePath)
-print(outputFilePath)
 
 # Ensure the PDF has consistent page sizes
 # If we don't have consistent page sizes, we won't be able to make this work.
@@ -60,8 +58,20 @@ else:
 # but in practice, it seems like it makes sense to let the user decide.)
 targetSize = { "width": 800, "height": 600 }
 
+scaleRatio = float(args.scale)
+
+knownSizeScaled = {
+    "width": knownSize["width"] * scaleRatio,
+    "height": knownSize["height"] * scaleRatio
+}
+
+gutter = float(args.gutter)
+
+print('gutter')
+print(gutter)
+
 # Get the co-ordinates with which we'll merge the pages
-x1, y1, x2, y2 = pdfGetDiptychFit(knownSize, targetSize)
+x1, y1, x2, y2 = pdfGetDiptychFit(knownSizeScaled, targetSize, gutter)
 
 # If any of the co-ordinates were null, exit early
 if x1 is None or y1 is None or x2 is None or y2 is None:
@@ -106,18 +116,6 @@ for folioSpec in folioSpecs:
 # Initialize the output PDF
 merger = PdfWriter()
 
-#
-# DEMO
-#
-# As a demo, make a couple diptych pages from the first four input pages.
-# pages = reader.pages
-# merger.add_page(
-#     createDiptychPage(targetSize, pages[0], pages[1], x1, y1, x2, y2)
-# )
-# merger.add_page(
-#     createDiptychPage(targetSize, pages[2], pages[3], x1, y1, x2, y2)
-# )
-
 # Use the folios specs to build the output PDF
 inputPages = reader.pages
 for folioSpec in folioSpecs:
@@ -126,10 +124,9 @@ for folioSpec in folioSpecs:
         leftPageIndex, rightPageIndex = folioSide
         left = inputPages[leftPageIndex]
         right = inputPages[rightPageIndex]
-        outputPage = createDiptychPage(targetSize, left, right, x1, y1, x2, y2)
+        outputPage = createDiptychPage(targetSize, left, right, x1, y1, x2, y2, scaleRatio)
         merger.add_page(outputPage)
 
 # Write and close the output PDF
-# merger.write("fixtures/2024-12-22-demo-pdf-diy-binding-paginator.pdf")
 merger.write(outputFilePath)
 merger.close()

@@ -14,7 +14,12 @@ defaultUserSpaceUnitsPerInch = 72.0
 # By default, the pages will be centered on both axes within the target area.
 # There will be no space between them. If the spaceBetweenPages parameter is
 # set, the pages will be separated by that amount of space.
-def pdfGetDiptychFit(pageSize, targetArea, spaceBetweenPages=0):
+def pdfGetDiptychFit(pageSize, targetArea, inchesBetweenPages=0):
+  spaceBetweenPages = inchesBetweenPages * 72
+  print('inchesBetweenPages')
+  print(inchesBetweenPages)
+  print('spaceBetweenPages')
+  print(spaceBetweenPages)
   # The page with must not be greater than half the target area width
   if pageSize["width"] > (targetArea["width"] / 2):
     return [None, None, None, None]
@@ -39,8 +44,10 @@ def pdfGetDiptychFit(pageSize, targetArea, spaceBetweenPages=0):
   x2 = targetArea["width"] / 2
   # Now we account for custom spacing. The first page will be shift to the left
   # when space is added, the second page will be shifted to the right.
+  print(x1, x2)
   x1 -= (spaceBetweenPages / 2)
   x2 += (spaceBetweenPages / 2)
+  print(x1, x2)
   # The pages will both be centered vertically, with identical y values.
   y1 = (targetArea["height"] - pageSize["height"]) / 2
   y2 = y1

@@ -8,8 +8,8 @@ One of the parts that I'm not looking forward to is figuring out how to efficien
 
 - [x] Make binding script accept inputFile and outputFile command line arguments
 - [x] Make split even odd script accept inputFile command line argument
-- [ ] Add scaling option to binding script
-- [ ] Add gutter option to binding script
+- [x] Add scaling option to binding script
+- [x] Add gutter option to binding script
 - [ ] Add sewing dots option, with positioning, to binding script
 
 ## Setup
