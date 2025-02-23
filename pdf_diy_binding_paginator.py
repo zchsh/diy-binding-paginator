@@ -1,9 +1,22 @@
+import sys
+import argparse
+
 from pypdf import PdfReader, PdfWriter, PageObject
 from pdf_is_consistent_size import pdfIsConsistentSize
 from pdf_get_diptych_fit import pdfGetDiptychFit
 from get_signatures import getSignatures
 from get_folios import getFolios
 from offset_page_numbers import offsetPageNumbers
+
+
+parser = argparse.ArgumentParser(
+        prog='ArgumentParserTest',
+        description='Tests parsing arguments')
+
+parser.add_argument('-i', '--input-file')
+parser.add_argument('-o', '--output-file')
+
+args = parser.parse_args()
 
 # Given two page objects, and two sets of co-ordinates,
 # as well as a targetSize representing an output page target,
@@ -23,10 +36,14 @@ def createDiptychPage(targetSize, pageLeft, pageRight, x1, y1, x2, y2):
 
 
 # Define the input file path. This is PDF we'll be transforming for binding.
-inputFilePath = "/Users/zachshilton/Downloads/2025-02-22-observers-guide-export.pdf"
-outputFilePath = "/Users/zachshilton/Downloads/2025-02-22-observers-guide-paginated.pdf"
+inputFilePath = args.input_file
+# outputFilePath = "/Users/zachshilton/Downloads/2025-02-22-observers-guide-paginated.pdf"
+outputFilePath = args.output_file
 # inputFilePath = "fixtures/2024-12-05-many-pages.pdf"
 # outputFilePath = "fixtures/2024-12-30-demo-pdf-diy-binding-paginator-many-pages.pdf"
+
+print(inputFilePath)
+print(outputFilePath)
 
 # Ensure the PDF has consistent page sizes
 # If we don't have consistent page sizes, we won't be able to make this work.

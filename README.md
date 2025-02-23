@@ -6,7 +6,7 @@ One of the parts that I'm not looking forward to is figuring out how to efficien
 
 ## Next steps
 
-- [ ] Make binding script accept inputFile and outputFile command line arguments
+- [x] Make binding script accept inputFile and outputFile command line arguments
 - [ ] Make split even odd script accept inputFile command line argument
 - [ ] Add scaling option to binding script
 - [ ] Add gutter option to binding script
