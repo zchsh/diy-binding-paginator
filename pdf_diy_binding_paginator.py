@@ -7,7 +7,7 @@ from pdf_get_diptych_fit import pdfGetDiptychFit
 from get_signatures import getSignatures
 from get_folios import getFolios
 from offset_page_numbers import offsetPageNumbers
-
+from pdf_add_sewing_dots import addSewingDots
 
 parser = argparse.ArgumentParser(
         prog='ArgumentParserTest',
@@ -116,16 +116,33 @@ for folioSpec in folioSpecs:
 # Initialize the output PDF
 merger = PdfWriter()
 
+# TODO: make these command line options maybe?
+dotInset = 1.0 * 72
+dotSpacing = 1.25 * 72
+dotScale = 0.03
+pageVerticalInset = (targetSize["height"] - knownSizeScaled["height"]) / 2
+dotInsetCalc = pageVerticalInset + dotInset
+
 # Use the folios specs to build the output PDF
 inputPages = reader.pages
 for folioSpec in folioSpecs:
+  folioPageIndex = -1
   for folioPage in folioSpec:
+    folioPageIndex += 1
+    isInnerPage = folioPageIndex == len(folioSpec) - 1
+    folioSideIndex = -1
     for folioSide in folioPage:
+        folioSideIndex += 1
+        isInnerSide = folioSideIndex == len(folioSide) - 1
         leftPageIndex, rightPageIndex = folioSide
         left = inputPages[leftPageIndex]
         right = inputPages[rightPageIndex]
         outputPage = createDiptychPage(targetSize, left, right, x1, y1, x2, y2, scaleRatio)
-        merger.add_page(outputPage)
+        if isInnerPage and isInnerSide: 
+            outputPageWithDots = addSewingDots(outputPage, dotInsetCalc, dotSpacing, dotScale)
+            merger.add_page(outputPageWithDots)
+        else:
+            merger.add_page(outputPage)
 
 # Write and close the output PDF
 merger.write(outputFilePath)

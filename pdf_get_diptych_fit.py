@@ -16,10 +16,6 @@ defaultUserSpaceUnitsPerInch = 72.0
 # set, the pages will be separated by that amount of space.
 def pdfGetDiptychFit(pageSize, targetArea, inchesBetweenPages=0):
   spaceBetweenPages = inchesBetweenPages * 72
-  print('inchesBetweenPages')
-  print(inchesBetweenPages)
-  print('spaceBetweenPages')
-  print(spaceBetweenPages)
   # The page with must not be greater than half the target area width
   if pageSize["width"] > (targetArea["width"] / 2):
     return [None, None, None, None]
